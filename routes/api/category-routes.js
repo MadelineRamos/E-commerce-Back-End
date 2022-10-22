@@ -2,14 +2,9 @@ const router = require('express').Router();
 const { Category, Product } = require('../../models');
 
 router.get('/', (req, res) => {
-  Category.findAll(
-    {
-      include: {
-        model: Product,
-        attributes: ['product_name']
-      }
-    }
-  )
+  Category.findAll({
+      include: [Product]
+    })
   .then(categoryData => res.json(categoryData))
   .catch(err => {
     console.log(err);
@@ -64,9 +59,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   Category.destroy({
-    where: {
-      id: req.params.id
-    }
+    where: { id: req.params.id }
   })
   .then(categoryData => {
     if(!categoryData){

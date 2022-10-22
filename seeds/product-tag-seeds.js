@@ -1,5 +1,4 @@
 const { ProductTag } = require('../models');
-
 const productTagData = [
   {
     product_id: 1,
@@ -52,5 +51,4 @@ const productTagData = [
 ];
 
 const seedProductTags = () => ProductTag.bulkCreate(productTagData);
-
 module.exports = seedProductTags;

@@ -2,10 +2,10 @@ const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
 router.get('/', (req, res) => {
-  Category.findAll({
+  Product.findAll({
     include: [Category, Tag]
   })
-  .then(categoryData => res.json(categoryData))
+  .then(productData => res.json(productData))
   .catch(err => {
     console.log(err);
     res.status(500).json(err);
@@ -33,7 +33,7 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
   Product.create(req.body)
     .then((product) => {
-      if (req.body.tagIds.length) {
+      if(req.body.tagIds.length) {
         const productTagIdArr = req.body.tagIds.map((tag_id) => {
           return {
             product_id: product.id,
@@ -52,11 +52,7 @@ router.post('/', (req, res) => {
 });
 
 router.put('/:id', (req, res) => {
-  Product.update(req.body, {
-    where: {
-      id: req.params.id,
-    },
-  })
+  Product.update(req.body, { where: { id: req.params.id }})
     .then((product) => {
       return ProductTag.findAll({ where: { product_id: req.params.id } });
     })
